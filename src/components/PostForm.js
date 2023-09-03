@@ -7,7 +7,7 @@ import ReactedPerson from '../../assets/icons/reaction/reacted-person';
 
 import BottomSheet from './BottomSheet';
 
-const PostForm = ({name, content}) => {
+const PostForm = ({name, content, image}) => {
     const [ modalVisible, setModalVisible ] = useState(false);
     const pressReactedPerson = () => {
         setModalVisible(true);
@@ -26,10 +26,13 @@ const PostForm = ({name, content}) => {
 
                 <View style={styles.topInfo}>
                     <Text style={styles.name}>{name}</Text>
-                    <Text style={styles.time}>시간</Text>                        
+                    <Text style={styles.time}>시간</Text>                    
                 </View>
 
-                <Text>{content}</Text>
+                <View style={styles.contentsContainer}>
+                    <Text>{content}</Text>
+                    {image==null ? null : <Image source={{uri: image}} style={styles.image}/>}
+                </View>
 
                 <View style={styles.bottomInfo}>
                     <View style={styles.bottomButtons}>
@@ -92,6 +95,12 @@ const styles = StyleSheet.create({
         textAlign: 'right',
         fontSize: 11,
         fontWeight: 500
+    },
+    contentsContainer:{
+        marginRight: 10
+    },
+    image:{
+        height: 250
     },
     bottomInfo:{
         flexDirection: 'row',

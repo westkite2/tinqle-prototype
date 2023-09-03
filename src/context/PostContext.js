@@ -7,8 +7,9 @@ const postReducer = (state, action) => {
         case 'add':
             return [...state,
                 {id: Math.floor(Math.random() * 99999), //`${state.length + 1}`,
-                name: "사용자",
-                content: action.payload.content}];
+                name: action.payload.name,
+                content: action.payload.content,
+                image: action.payload.selectedImage}];
         case 'delete':
             return state.filter((userPost) => userPost.id !== action.payload.id);
         default:
@@ -21,8 +22,8 @@ const getUserPosts = dispatch => {
     };
 };
 const addUserPost = dispatch =>{
-    return (content) => {
-        dispatch({type: 'add', payload: {content}});
+    return (name, content, selectedImage) => {
+        dispatch({type: 'add', payload: {name, content, selectedImage}});
     }
 }
 const deleteUserPost = dispatch =>{

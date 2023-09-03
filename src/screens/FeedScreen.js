@@ -10,8 +10,10 @@ import AddFriendIcon from '../../assets/icons/add-friend';
 import NoticeIcon from '../../assets/icons/notice';
 import ProfileIcon from '../../assets/icons/profile'
 
+
 const FeedScreen = ({navigation}) => {
     const {state, getUserPosts} = useContext(PostContext);
+        
 
     useEffect(()=>{
         getUserPosts();
@@ -32,7 +34,7 @@ const FeedScreen = ({navigation}) => {
                 renderItem={({item})=>{
                     return (
                         <TouchableOpacity onPress={() => navigation.navigate('PostDetail', {id: item.id})}>
-                            <PostForm name={item.name} content={item.content}/>
+                            <PostForm name={item.name} content={item.content} image={item.image}/>
                         </TouchableOpacity>
                     )
                 }}

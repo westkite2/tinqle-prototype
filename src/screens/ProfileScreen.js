@@ -1,39 +1,46 @@
 import React, {useContext} from 'react';
-import {View, Text, TouchableOpacity, FlatList, Image, StyleSheet} from 'react-native';
+import {View, Text, Pressable, TouchableOpacity, FlatList, StyleSheet} from 'react-native';
 import {Context as PostContext} from '../context/PostContext';
 
+import Chicken from '../../assets/status/chicken';
+import Edit from '../../assets/icons/edit';
 
 import SettingsIcon from '../../assets/icons/settings'
 import PostForm from '../components/PostForm';
 
-const ProfileScreen = () => {
+const ProfileScreen = ({navigation}) => {
     const {state, getUserPosts} = useContext(PostContext);
 
     return(
         <View style={styles.container}>
-            <View style={styles.profileContainer}>
-                <Image
-                    style={styles.profileImage}
-                    source={require('../../assets/images/empty-profile-image.png')}
-                />
-                <Text>사용자</Text>
-                <Text>상태 메시지~</Text>
-            </View>
-
             <FlatList
                 data={state}
                 keyExtractor={userPost => userPost.id}
                 renderItem={({item})=>{
                     return (
                         <TouchableOpacity onPress={() => navigation.navigate('PostDetail', {id: item.id})}>
-                            <PostForm name={item.name} content={item.content}/>
+                            <PostForm name={item.name} content={item.content} image={item.image}/>
                         </TouchableOpacity>
                     )
                 }}
                 ItemSeparatorComponent={() => <View style={{height: 10}} />}
-                ListHeaderComponent={<View style={styles.listTopComponent}></View>}
+                ListHeaderComponent={
+                <View style={styles.profileContainer}>
+                    <View style={styles.statusBox}>
+                        <Chicken/>
+                    </View>
+
+                    <View style={styles.nameContainer}>
+                        <Text style={styles.nameText}>사용자</Text>
+                        <Pressable style={styles.editName}>
+                            <Edit style={styles.editIcon}/>
+                        </Pressable>
+                    </View>
+                    
+                    <Text style={styles.idText}>ID: idgoeshere</Text>
+                </View>
+                }
             />
-            
         </View>
 
     )
@@ -56,24 +63,47 @@ ProfileScreen.navigationOptions = ({navigation}) => {
 
 const styles = StyleSheet.create({
     container:{
-        flex: 1,
+        flex: 1
     },
     profileContainer:{
-        height: 300,
-        backgroundColor: 'white',
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+        backgroundColor: 'white',
+        marginVertical: 10,
+        marginHorizontal: 16,
+        paddingVertical: 40,
+        borderRadius: 10
     },
     settingsIcon:{
-        marginRight: 14
+        marginRight: 14,        
     },
-    profileImage:{
-        width: 90,
-        height: 90,
-        borderRadius: 50,
+    statusBox:{
+        width: 120,
+        height: 120,
+        backgroundColor: '#F7F7F7',
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderRadius: 30,
     },
-    listTopComponent:{
-        marginTop: 10,
+    nameContainer:{
+        flexDirection: 'row',
+        alignItems: 'flex-end',
+        marginTop: 12,
+        marginBottom: 9,
+    },
+    nameText:{
+        textAlign: 'center',
+        fontSize: 22,
+        fontWeight: 600,
+        marginLeft: 16,
+    },
+    editName:{
+        marginLeft: 2,
+        marginBottom: 3
+    },
+    idText:{
+        fontSize: 11,
+        color: '#848484',
     }
 });
 

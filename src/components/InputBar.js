@@ -1,41 +1,62 @@
-import React, {useState, useContext} from 'react';
-import {View, Text, StyleSheet, TouchableOpacity, TextInput} from 'react-native';
+import React, {useState, useContext, useEffect} from 'react';
+import {View, Text, Image, StyleSheet, TouchableOpacity, TextInput} from 'react-native';
 import {Context as PostContext} from '../context/PostContext';
+import {Context as CurrentUserContext} from '../context/CurrentUserContext';
 
 import CheckIcon from '../../assets/icons/check';
-import AddPhotoIcon from '../../assets/icons/add-photo';
+import CameraButton from './CameraButton';
+import { Pressable } from 'react-native';
+
+import { saveUserPost } from "../../lib/posts";
+
 
 const InputBar = () => {
     const [content, setContent] = useState('');
+    const [selectedImage, setSelectedImage] = useState(null);
+
+    const {state} = useContext(CurrentUserContext);
     const {addUserPost} = useContext(PostContext);
 
+    const showSelectedImage = (seletedImageURI) =>{
+        setSelectedImage(seletedImageURI);
+    }
+    
     return(
         <View style={styles.container}>
             <View style={styles.inputContainer}>
                 <TouchableOpacity style={styles.addPhoto}>
-                    <AddPhotoIcon/>
+                    <CameraButton callback={showSelectedImage}/>
                 </TouchableOpacity>
+            
+                {selectedImage==null ? null :
+                    <Pressable onPress={() => setSelectedImage(null)}>
+                        <Image source={{uri: selectedImage}} style={{ width: 50, height: 50, marginRight: 4}}/>
+                    </Pressable>}
                 
+
                 <TextInput
                     style={styles.input}
                     autoCapitalize='none'
                     autoCorrect={false}
                     multiline={true}
-                    maxLength={200}
-                    placeholder='지금 기분이 어때요? (200자 이내)'
-                    value={content}
+                    maxLength={500}
+                    placeholder='지금 기분이 어때요? (500자 이내)'
+                    value={content}                      
                     onChangeText={newContent => setContent(newContent)}
                 />
+
             </View>
 
+            {/* send button */}
             <TouchableOpacity
-                style={content == '' ? styles.inactiveButton : styles.activeButton}
-                disabled={content == '' ? true : false}
+                style={content == '' && selectedImage == null ? styles.inactiveButton : styles.activeButton}
+                disabled={content == '' && selectedImage == null ? true : false}
                 onPress={() => {
-                    if (content != ''){
-                        addUserPost(content);
-                        setContent('');
-                    }
+                    // saveUserPost(1, content);
+                    // createPost(state.name, content, selectedImage);
+                    // addUserPost(state.name, content, selectedImage);
+                    setContent('');
+                    setSelectedImage(null);
                 }}>
                 <CheckIcon/>
             </TouchableOpacity>
