@@ -7,9 +7,6 @@ import CheckIcon from '../../assets/icons/check';
 import CameraButton from './CameraButton';
 import { Pressable } from 'react-native';
 
-import { saveUserPost } from "../../lib/posts";
-
-
 const InputBar = () => {
     const [content, setContent] = useState('');
     const [selectedImage, setSelectedImage] = useState(null);
@@ -52,9 +49,8 @@ const InputBar = () => {
                 style={content == '' && selectedImage == null ? styles.inactiveButton : styles.activeButton}
                 disabled={content == '' && selectedImage == null ? true : false}
                 onPress={() => {
-                    // saveUserPost(1, content);
                     // createPost(state.name, content, selectedImage);
-                    // addUserPost(state.name, content, selectedImage);
+                    addUserPost(state.name, content, selectedImage);
                     setContent('');
                     setSelectedImage(null);
                 }}>

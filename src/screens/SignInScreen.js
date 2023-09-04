@@ -13,7 +13,7 @@ const SignInScreen = ({navigation}) => {
             <Text>친구는 지금 뭐할까?</Text>
             <Text></Text>
             <TouchableOpacity onPress={() => {
-                setUserData(Math.floor(Math.random() * 99999), "롯디", "chicken");
+                setUserData(Math.floor(Math.random() * 99999), "사람", "human");
                 navigation.navigate('Feed');
                 }}>
                     <Text>로그인</Text>
